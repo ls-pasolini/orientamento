@@ -1,80 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quadro orario - Liceo Scientifico</title>
+<title>Quadro orario – Liceo Scientifico di Ordinamento</title>
 <style>
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    padding: 24px;
-    background: #fff;
-    color: #222;
-    font-family: Arial, sans-serif;
+  :root { --azzurro:#8fb4cc; --bordo:#bfd5e4; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:clamp(8px,3vw,28px); font:16px/1.45 Arial,Helvetica,sans-serif; color:#17212a; background:#fff; }
+  .table-wrap { max-width:1200px; margin:auto; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--bordo); border-radius:8px; }
+  table { width:100%; min-width:720px; border-collapse:separate; border-spacing:0; text-align:center; font-variant-numeric:tabular-nums; }
+  th,td { padding:13px 12px; border-right:1px solid var(--bordo); border-bottom:1px solid var(--bordo); }
+  tr > :last-child { border-right:0; }
+  tfoot tr:last-child > * { border-bottom:0; }
+  thead th { color:#fff; background:var(--azzurro); font-weight:700; }
+  thead th:first-child,tbody th,tfoot th { width:39%; text-align:left; min-width:230px; }
+  tbody th { font-weight:600; }
+  tbody tr:nth-child(odd) { background:#f2f7fa; }
+  tbody tr:hover { background:#e7f1f7; }
+  tfoot th,tfoot td { color:#fff; background:var(--azzurro); font-weight:700; }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  @media(max-width:600px) {
+    body { padding:8px; font-size:14px; }
+    th,td { padding:12px 9px; }
+    thead th:first-child,tbody th,tfoot th { position:sticky; left:0; z-index:1; min-width:205px; width:205px; box-shadow:2px 0 4px rgba(0,0,0,.08); }
+    tbody tr:nth-child(odd) th { background:#f2f7fa; }
+    tbody tr:nth-child(even) th { background:#fff; }
+    thead th:first-child,tfoot th { background:var(--azzurro); z-index:2; }
   }
-
-  h2 { text-align: center; }
-
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 550px;
-  }
-
-  th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-
-  th { background: #a71930; color: white; }
-
-  td:first-child {
-    text-align: left;
-    font-weight: bold;
-  }
-
-  tr:nth-child(even) { background: #f5f5f5; }
 </style>
 </head>
 <body>
-
-<h2>Quadro orario - Liceo Scientifico</h2>
-
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Disciplina</th>
-        <th>1°</th><th>2°</th><th>3°</th>
-        <th>4°</th><th>5°</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Lingua e letteratura italiana</td>
-        <td>4</td><td>4</td><td>4</td><td>4</td><td>4</td>
-      </tr>
-      <tr>
-        <td>Matematica</td>
-        <td>5</td><td>5</td><td>4</td><td>4</td><td>4</td>
-      </tr>
-      <tr>
-        <td>Scienze naturali</td>
-        <td>2</td><td>2</td><td>3</td><td>3</td><td>3</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+<main>
+  <div class="table-wrap" role="region" aria-label="Quadro orario, tabella scorribile orizzontalmente" tabindex="0">
+    <table>
+      <caption class="sr-only">Ore per disciplina e anno di corso</caption>
+      <thead><tr><th scope="col">Disciplina</th><th scope="col">1° anno</th><th scope="col">2° anno</th><th scope="col">3° anno</th><th scope="col">4° anno</th><th scope="col">5° anno</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Lingua e letteratura italiana</th><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><th scope="row">Lingua e cultura latina</th><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><th scope="row">Lingua e cultura straniera (Inglese)</th><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><th scope="row">GeoStoria</th><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Storia</th><td>—</td><td>—</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><th scope="row">Filosofia</th><td>—</td><td>—</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><th scope="row">Matematica</th><td>5</td><td>5</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><th scope="row">Fisica</th><td>2</td><td>2</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><th scope="row">Scienze Naturali</th><td>2</td><td>2</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><th scope="row">Disegno e Storia dell&#x27;Arte</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><th scope="row">Scienze Motorie e Sportive</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><th scope="row">Educazione Civica</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><th scope="row">ICR (facoltativa)</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><th scope="row">Totale ore settimanali</th><td>28</td><td>28</td><td>31</td><td>31</td><td>31</td></tr>
+        <tr><th scope="row">Totale ore annuali</th><td>924</td><td>924</td><td>1023</td><td>1023</td><td>1023</td></tr>
+      </tfoot>
+    </table>
+  </div>
+</main>
 </body>
 </html>
