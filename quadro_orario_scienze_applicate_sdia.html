@@ -1,110 +1,176 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#8BBF36" name="theme-color"/>
 <title>Quadro orario – Scienze applicate S.D.I.A.</title>
 <style>
-  :root { --verde: #86bd32; --grigio: #f3f3f3; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    background: #f5f5f5;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #090909;
-    padding: 8px;
-  }
-  .table-scroll {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  table {
-    border-collapse: separate;
-    border-spacing: 3px 4px;
-    background: #fff;
-    width: 100%;
-    min-width: 720px;
-    table-layout: fixed;
-    font-size: clamp(15px, 1.8vw, 21px);
-    font-weight: 700;
-    text-align: center;
-  }
-  col.discipline { width: 39%; }
-  col.year { width: 12.2%; }
-  th, td {
-    border: 3px solid var(--verde);
-    background: #fff;
-    padding: 15px 5px;
-    line-height: 1.25;
-  }
-  thead th {
-    height: 100px;
-    background: var(--verde);
-    color: #fff;
-    border-color: var(--verde);
-    font-size: 0.96em;
-    font-style: normal;
-  }
-  tbody th {
-    font-style: italic;
-    font-weight: 700;
-  }
-  tbody tr:nth-child(odd) > * { background: var(--grigio); }
-  tbody tr:nth-child(even) > * { background: #fff; }
-  tbody tr:nth-child(13) th { font-style: normal; }
-  tfoot th, tfoot td {
-    background: var(--verde);
-    border-color: var(--verde);
-    color: #fff;
-    font-weight: 700;
-    padding: 18px 5px;
-  }
-  tfoot th { text-transform: uppercase; font-size: .92em; }
-  .nota {
-    margin: 76px 18px 22px;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  @media (max-width: 760px) {
-    body { padding: 4px; }
-    table { font-size: 16px; }
-    th, td { padding: 12px 5px; }
-    thead th { height: 65px; }
-    .nota { font-size: 14px; margin: 30px 10px 18px; }
-  }
-</style>
+    :root {
+      --verde: #8BBF36;
+      --bordo: #A7CD63;
+      --riga: #F6F6F6;
+      --testo: #1f1f1f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: clamp(10px, 2.8vw, 28px);
+      background: #ffffff;
+      color: var(--testo);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.4;
+    }
+
+    .table-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--bordo);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 740px;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    thead th {
+      background: var(--verde);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-right: 1px solid var(--bordo);
+      border-bottom: 1px solid var(--bordo);
+      vertical-align: middle;
+    }
+
+    tr > :last-child { border-right: 0; }
+    tbody tr:last-child > *, tfoot tr:last-child > * { border-bottom: 0; }
+
+    thead th:first-child,
+    tbody th,
+    tfoot th {
+      width: 39%;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    tbody th {
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: var(--riga);
+    }
+
+    tbody tr:hover {
+      background: #f0f7e3;
+    }
+
+    tfoot th,
+    tfoot td {
+      background: var(--verde);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    tfoot tr + tr th,
+    tfoot tr + tr td {
+      border-top: 1px solid rgba(255,255,255,.35);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+
+      th, td {
+        padding: 12px 10px;
+      }
+
+      thead th:first-child,
+      tbody th,
+      tfoot th {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        min-width: 210px;
+        width: 210px;
+        box-shadow: 2px 0 4px rgba(0,0,0,.06);
+      }
+
+      tbody tr:nth-child(odd) th { background: var(--riga); }
+      tbody tr:nth-child(even) th { background: #fff; }
+      thead th:first-child,
+      tfoot th {
+        background: var(--verde);
+        z-index: 2;
+      }
+    }
+  </style>
 </head>
 <body>
 <main>
-  <div class="table-scroll" role="region" aria-label="Quadro orario S.D.I.A., scorrere orizzontalmente su schermi piccoli" tabindex="0">
-    <table aria-label="Quadro orario opzione S.D.I.A.">
-      <colgroup><col class="discipline"><col class="year"><col class="year"><col class="year"><col class="year"><col class="year"></colgroup>
-      <thead><tr><th scope="col">disciplina</th><th scope="col">1° anno</th><th scope="col">2° anno</th><th scope="col">3° anno</th><th scope="col">4° anno</th><th scope="col">5° anno</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">Lingua e letteratura italiana</th><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
-        <tr><th scope="row">Lingua e cultura straniera (Inglese)</th><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-        <tr><th scope="row">GeoStoria</th><td>3</td><td>3</td><td></td><td></td><td></td></tr>
-        <tr><th scope="row">Storia</th><td></td><td></td><td>2</td><td>2</td><td>2</td></tr>
-        <tr><th scope="row">Filosofia</th><td></td><td></td><td>2</td><td>2</td><td>2</td></tr>
-        <tr><th scope="row">Matematica</th><td>4+1*</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
-        <tr><th scope="row">Fisica</th><td>2</td><td>2</td><td>2+1*</td><td>2+1*</td><td>3</td></tr>
-        <tr><th scope="row">Informatica</th><td>2+1*</td><td>2+1*</td><td>2+2*</td><td>2+2*</td><td>2+1*</td></tr>
-        <tr><th scope="row">Scienze Naturali</th><td>3</td><td>3+1*</td><td>4+1*</td><td>4+1*</td><td>4+1*</td></tr>
-        <tr><th scope="row">Disegno e Storia dell’Arte</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
-        <tr><th scope="row">Scienze Motorie e Sportive</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
-        <tr><th scope="row">Educazione Civica</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-        <tr><th scope="row">ICR (facoltativa)</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-      </tbody>
-      <tfoot>
-        <tr><th scope="row">TOTALE ORE SETTIMANALI</th><td>28</td><td>28</td><td>31</td><td>31</td><td>31</td></tr>
-        <tr><th scope="row">TOTALE ORE ANNUALI</th><td>924</td><td>924</td><td>1023</td><td>1023</td><td>1023</td></tr>
-      </tfoot>
-    </table>
-  </div>
-  <p class="nota">* COMPRESENZA CON INFORMATICA</p>
-</main>
+<div aria-label="Tabella quadro orario, scorribile orizzontalmente su schermi piccoli" class="table-wrap" role="region" tabindex="0">
+<table>
+<caption class="sr-only">Quadro orario opzione S.D.I.A.</caption>
+<thead>
+<tr>
+<th scope="col">Disciplina</th>
+<th scope="col">1° anno</th>
+<th scope="col">2° anno</th>
+<th scope="col">3° anno</th>
+<th scope="col">4° anno</th>
+<th scope="col">5° anno</th>
+</tr>
+</thead>
+<tbody>
+<tr><th scope="row">Lingua e letteratura italiana</th><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><th scope="row">Lingua e cultura straniera (Inglese)</th><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><th scope="row">GeoStoria</th><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Storia</th><td>—</td><td>—</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><th scope="row">Filosofia</th><td>—</td><td>—</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><th scope="row">Matematica</th><td>4+1*</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><th scope="row">Fisica</th><td>2</td><td>2</td><td>2+1*</td><td>2+1*</td><td>3</td></tr>
+<tr><th scope="row">Informatica</th><td>2+1*</td><td>2+1*</td><td>2+2*</td><td>2+2*</td><td>2+1*</td></tr>
+<tr><th scope="row">Scienze Naturali</th><td>3</td><td>3+1*</td><td>4+1*</td><td>4+1*</td><td>4+1*</td></tr>
+<tr><th scope="row">Disegno e Storia dell'Arte</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><th scope="row">Scienze Motorie e Sportive</th><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><th scope="row">Educazione Civica</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">ICR (facoltativa)</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</tbody>
+<tfoot>
+<tr><th scope="row">Totale ore settimanali</th><td>28</td><td>28</td><td>31</td><td>31</td><td>31</td></tr>
+<tr><th scope="row">Totale ore annuali</th><td>924</td><td>924</td><td>1023</td><td>1023</td><td>1023</td></tr>
+</tfoot>
+</table>
+</div>
+<p style="max-width:1200px;margin:20px auto 0;font-size:14px;">* COMPRESENZA CON INFORMATICA</p></main>
 </body>
 </html>
-
-
