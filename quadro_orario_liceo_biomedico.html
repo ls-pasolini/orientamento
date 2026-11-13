@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="it">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="#980000" name="theme-color"/>
+<meta content="#8fb4cc" name="theme-color"/>
 <title>Quadro orario – Liceo Scientifico Biomedico</title>
 <style>
-    :root { --azzurro: #980000; --bordo: #d9b3b3; --testo: #17212a; }
+    :root { --azzurro: #8fb4cc; --bordo: #c5d8e5; --testo: #17212a; }
     * { box-sizing: border-box; }
     body { margin: 0; padding: clamp(12px, 3vw, 32px); color: var(--testo); background: #fff; font: 16px/1.45 Arial, Helvetica, sans-serif; }
     .table-wrap { max-width: 1200px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--bordo); border-radius: 9px; }
@@ -16,10 +15,10 @@
     th, td { padding: 13px 12px; border-right: 1px solid var(--bordo); border-bottom: 1px solid var(--bordo); }
     tr > :last-child { border-right: 0; }
     tbody tr:last-child > *, tfoot tr:last-child > * { border-bottom: 0; }
-    thead tr:first-child > th:first-child, tbody th, tfoot th { width: 39%; min-width: 250px; text-align: left; }
+    thead th:first-child, tbody th, tfoot th { width: 39%; min-width: 250px; text-align: left; }
     tbody th { font-weight: 600; }
-    tbody tr:nth-child(odd) { background: #f9f5f5; }
-    tbody tr:hover { background: #f9ebeb; }
+    tbody tr:nth-child(odd) { background: #f4f8fb; }
+    tbody tr:hover { background: #eaf3f8; }
     tfoot th, tfoot td { background: var(--azzurro); color: #fff; font-weight: 700; }
     tfoot tr + tr th, tfoot tr + tr td { border-top: 1px solid rgba(255,255,255,.45); }
     .nota { max-width: 1200px; margin: 18px auto 0; font-size: 14px; line-height: 1.5; }
@@ -27,51 +26,49 @@
     @media (max-width: 600px) {
       body { padding: 8px; font-size: 14px; }
       th, td { padding: 12px 10px; }
-      thead tr:first-child > th:first-child, tbody th, tfoot th { position: sticky; left: 0; z-index: 1; min-width: 210px; width: 210px; box-shadow: 2px 0 3px rgba(0,0,0,.06); }
-      tbody tr:nth-child(odd) th { background: #f9f5f5; }
+      thead th:first-child, tbody th, tfoot th { position: sticky; left: 0; z-index: 1; min-width: 210px; width: 210px; box-shadow: 2px 0 3px rgba(0,0,0,.06); }
+      tbody tr:nth-child(odd) th { background: #f4f8fb; }
       tbody tr:nth-child(even) th { background: #fff; }
       thead th:first-child, tfoot th { background: var(--azzurro); z-index: 2; }
       .nota { margin-top: 14px; font-size: 13px; }
     }
   
-    /* Biomedico: cinque anni suddivisi in dieci quadrimestri */
-    table.biomedico-table { min-width: 1050px; }
-    .biomedico-table thead tr:first-child > th:first-child,
-    .biomedico-table tbody th,
-    .biomedico-table tfoot th { width: 28%; min-width: 230px; }
-    .biomedico-table thead th:not(:first-child),
-    .biomedico-table tbody td,
-    .biomedico-table tfoot td { text-align: center; }
-    .biomedico-table td { white-space: nowrap; }
-    .biomedico-table tbody tr:nth-child(odd) th { background: #f9f5f5; }
+
+    /* Soltanto gli adattamenti necessari alle dieci colonne quadrimestrali. */
+    .biomedico-table { min-width: 1140px; }
+    .biomedico-table thead tr:first-child th:first-child,
+    .biomedico-table tbody th, .biomedico-table tfoot th { width: 28%; min-width: 250px; }
+    .biomedico-table tbody td { white-space: nowrap; }
+    .biomedico-table thead tr:first-child th { background: var(--azzurro); }
+    .biomedico-table thead tr:nth-child(2) th { background: var(--azzurro); }
+    .biomedico-table tbody tr:nth-child(odd) th { background: #f4f8fb; }
     .biomedico-table tbody tr:nth-child(even) th { background: #fff; }
-    .biomedico-table tbody tr.bg-green > * { background: #e2efda; }
+    .biomedico-table tbody tr.lab-row > * { background: #eaf3f8; }
     .bg-gray { background: #eaeaea !important; color: #777; }
-    .red-text, .text-red-italic { color: #d90000; font-weight: 700; }
-    .blue-text, .text-blue-italic { color: #008dc4; font-weight: 700; }
+    .red-text, .text-red-italic { color: #c42d36; font-weight: 700; }
+    .blue-text, .text-blue-italic { color: #087da9; font-weight: 700; }
     .text-red-italic, .text-blue-italic { font-style: italic; }
-    .clickable { cursor: pointer; background: #ffebee !important; }
-    .clickable:hover { background: #ffcdd2 !important; }
-    .clickable::after { content: " ⓘ"; font-size: .76em; vertical-align: super; }
+    .clickable { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+    .clickable:hover { background: #dcecf5 !important; }
+    .clickable::after { content: " ⓘ"; font-size: .75em; vertical-align: super; }
     .legend-title { font-weight: 700; font-style: italic; margin-bottom: 5px; }
     .legend-item { margin: 3px 0; }
     .modal-overlay { display: none; position: fixed; z-index: 9999; inset: 0; background: rgba(0,0,0,.5); padding: 16px; align-items: center; justify-content: center; }
     .modal-overlay.is-open { display: flex; }
     .modal-box { position: relative; width: min(100%,480px); max-height: 90vh; overflow-y: auto; background: #fff; border-radius: 9px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,.25); line-height: 1.5; }
-    .modal-header { font-weight: 700; color: #980000; margin-bottom: 10px; padding-right: 35px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+    .modal-header { font-weight: 700; color: var(--testo); margin-bottom: 10px; padding-right: 35px; padding-bottom: 8px; border-bottom: 1px solid var(--bordo); }
     .modal-close { position: absolute; top: 6px; right: 12px; font-size: 28px; color: #555; background: none; border: 0; cursor: pointer; }
-    .clickable:focus-visible, .modal-close:focus-visible { outline: 3px solid #980000; outline-offset: 2px; }
+    .clickable:focus-visible, .modal-close:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
     @media (max-width: 600px) {
-      .biomedico-table thead tr:first-child > th:first-child,
-      .biomedico-table tbody th,
-      .biomedico-table tfoot th { min-width: 210px; width: 210px; }
-      .biomedico-table tbody tr.bg-green th { background: #e2efda; }
+      .biomedico-table thead tr:first-child th:first-child,
+      .biomedico-table tbody th, .biomedico-table tfoot th { width: 210px; min-width: 210px; }
+      .biomedico-table tbody tr.lab-row th { background: #eaf3f8; }
     }
 </style>
 </head>
 <body>
 <main>
-<div aria-label="Tabella quadro orario del Liceo Biomedico, scorribile orizzontalmente su schermi piccoli" class="table-wrap" role="region" tabindex="0">
+<div aria-label="Tabella quadro orario del Liceo Biomedico, scorribile orizzontalmente su schermi piccoli" class="table-wrap" role="region" tabindex="0"><h2 style="text-align:center; margin: 14px 12px 20px;">Quadro orario – Liceo Biomedico</h2>
 <table class="biomedico-table">
 <thead>
 <tr>
@@ -252,7 +249,7 @@
 <td>1</td>
 <td>1</td>
 </tr>
-<tr class="bg-green">
+<tr class="lab-row">
 <th scope="row">Laboratorio biomedico e STEAM</th>
 <td>1</td>
 <td>1</td>
@@ -296,7 +293,6 @@
 </tfoot>
 </table>
 </div>
-
 <div class="nota">
 <div class="legend-title">Legenda:</div>
 <div class="legend-item">1. <span class="text-red-italic">Esempi di Compresenze</span> indicate con <span class="text-red-italic">“*”</span> (asterisco)</div>
@@ -320,4 +316,3 @@
   }
 </script></body>
 </html>
-
