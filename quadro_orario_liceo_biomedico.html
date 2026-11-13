@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/><title>Quadro orario – Liceo Scientifico Biomedico</title><meta content="#980000" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: transparent;
+      padding: 4px;
+      width: 100%;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table.biomedico-table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 12.5px;
+      color: #000000;
+      border: 1.5px solid #000000;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    table.biomedico-table th, 
+    table.biomedico-table td {
+      border: 1px solid #000000;
+      padding: 6px 2px;
+      vertical-align: middle;
+      line-height: 1.2;
+    }
+
+    /* Definizione larghezze colonne */
+    .col-discipline { width: 28%; }
+    .col-q { width: 7.2%; }
+
+    /* Stili Colore */
+    .bg-red {
+      background-color: #980000;
+      color: #FFFFFF;
+      font-weight: bold;
+    }
+    .bg-green {
+      background-color: #E2EFDA;
+    }
+    .bg-gray {
+      background-color: #EAEAEA;
+      color: #777777;
+    }
+
+    .subject-cell {
+      text-align: left;
+      padding-left: 6px !important;
+      font-weight: bold;
+    }
+
+    .red-text {
+      color: #D90000;
+      font-weight: bold;
+    }
+    .blue-text {
+      color: #00A3E0;
+      font-weight: bold;
+    }
+
+    /* Legenda / Postilla */
+    .legend-box {
+      margin-top: 12px;
+      padding: 6px 2px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #000000;
+    }
+    .legend-title {
+      font-weight: bold;
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .legend-item {
+      margin-left: 4px;
+    }
+    .text-red-italic {
+      color: #D90000;
+      font-style: italic;
+      font-weight: bold;
+    }
+    .text-blue-italic {
+      color: #00A3E0;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    /* Celle Interattive */
+    .clickable {
+      cursor: pointer;
+      background-color: #FFEBEE;
+      transition: background-color 0.2s;
+    }
+    .clickable:hover {
+      background-color: #FFCDD2;
+    }
+    .clickable::after {
+      content: " ⓘ";
+      font-size: 0.8em;
+      vertical-align: super;
+      display: inline-block;
+    }
+
+    /* Modal PopUp (Centrato e Responsive) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-box {
+      background-color: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      width: 88%;
+      max-width: 450px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .modal-header {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 10px;
+      padding-right: 20px;
+      color: #980000;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+    }
+    .modal-close {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+    }
+    .modal-close:hover {
+      color: #000;
+    }
+
+    /* Regole Responsive per schermi ridotti */
+    @media screen and (max-width: 768px) {
+      table.biomedico-table {
+        font-size: 11px;
+      }
+      table.biomedico-table th, 
+      table.biomedico-table td {
+        padding: 4px 1px;
+      }
+      .legend-box {
+        font-size: 11px;
+      }
+    }
+
+    @media screen and (max-width: 520px) {
+      table.biomedico-table {
+        font-size: 9.5px;
+      }
+      table.biomedico-table th, 
+      table.biomedico-table td {
+        padding: 3px 1px;
+      }
+      .col-discipline { width: 30%; }
+      .col-q { width: 7%; }
+      .clickable::after {
+        font-size: 0.7em;
+      }
+      .legend-box {
+        font-size: 10px;
+      }
+    }
+
+    @media screen and (max-width: 380px) {
+      table.biomedico-table {
+        font-size: 8px;
+      }
+      table.biomedico-table th, 
+      table.biomedico-table td {
+        padding: 2px 0px;
+      }
+      .legend-box {
+        font-size: 9px;
+      }
+    }
+  
+    /* Layout coerente con le altre pagine GitHub Pages di orientamento */
+    body {
+      background: #ffffff;
+      padding: clamp(10px, 2.8vw, 28px);
+      color: #1f1f1f;
+      line-height: 1.4;
+    }
+    .table-container { max-width: 1200px; margin: 0 auto; overflow: visible; }
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #cda5a5;
+      border-radius: 8px;
+    }
+    table.biomedico-table {
+      min-width: 1010px;
+      font-size: 14px;
+      border: 0;
+    }
+    table.biomedico-table th,
+    table.biomedico-table td { padding: 12px 6px; line-height: 1.4; }
+    .legend-box { font-size: 14px; margin-top: 20px; }
+    .clickable:focus-visible { outline: 3px solid #980000; outline-offset: -3px; }
+    @media (max-width: 768px) {
+      body { padding: 8px; }
+      table.biomedico-table { font-size: 13px; }
+      table.biomedico-table th, table.biomedico-table td { padding: 10px 5px; }
+      .legend-box { font-size: 13px; }
+    }
+    @media (max-width: 520px) {
+      table.biomedico-table { font-size: 13px; }
+      table.biomedico-table th, table.biomedico-table td { padding: 9px 5px; }
+      .col-discipline { width: 28%; }
+      .col-q { width: 7.2%; }
+      .legend-box { font-size: 12px; }
+    }
+    @media (max-width: 380px) {
+      table.biomedico-table { font-size: 13px; }
+      table.biomedico-table th, table.biomedico-table td { padding: 9px 5px; }
+      .legend-box { font-size: 12px; }
+    }
+</style>
+</head>
+<body>
+<div class="table-container">
+<div aria-label="Quadro orario del Liceo Biomedico; scorri orizzontalmente per visualizzare tutti i quadrimestri" class="table-scroll" role="region" tabindex="0"><table class="biomedico-table">
+<thead>
+
+<tr class="bg-red">
+<th class="col-discipline" rowspan="2">Discipline</th>
+<th colspan="2">I Anno</th>
+<th colspan="2">II Anno</th>
+<th colspan="2">III Anno</th>
+<th colspan="2">IV Anno</th>
+<th colspan="2">V Anno</th>
+</tr>
+<tr class="bg-red">
+<th class="col-q">1 Q</th>
+<th class="col-q">2 Q</th>
+<th class="col-q">1 Q</th>
+<th class="col-q">2 Q</th>
+<th class="col-q">1 Q</th>
+<th class="col-q">2 Q</th>
+<th class="col-q">1 Q</th>
+<th class="col-q">2 Q</th>
+<th class="col-q">1 Q</th>
+<th class="col-q">2Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="subject-cell">Lingua e letteratura italiana</td>
+<td>4</td>
+<td>4</td>
+<td aria-label="Apri approfondimento: 3+1*" class="red-text clickable" onclick="openModal('Lingua e letteratura italiana (II Anno - 1Q)', '&lt;strong&gt;Italiano:&lt;/strong&gt; Lessico scientifico e analisi etimologica di termini riconducibili all’ambito medico-sanitario.&lt;br&gt;Specificità dell’arte medica del passato in relazione a diversi contesti storico culturali&lt;br&gt;&lt;br&gt;&lt;strong&gt;Latino:&lt;/strong&gt; Lessico scientifico e analisi etimologica di termini riconducibili all’ambito medico-sanitario.&lt;br&gt;Specificità dell’arte medica del passato in relazione a diversi contesti storico culturali')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0">3+1*</td>
+<td>4</td>
+<td class="red-text">3+1*</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td aria-label="Apri approfondimento: 3+1*" class="red-text clickable" onclick="openModal('Lingua e letteratura italiana (V Anno - 1Q)', '&lt;strong&gt;Italiano:&lt;/strong&gt; la letteratura dell’800/900 alle prese con il tema esistenziale della vita / Italo Svevo&lt;br&gt;&lt;br&gt;&lt;strong&gt;Filosofia:&lt;/strong&gt; la bioetica / Freud')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0">3+1*</td>
+<td>4</td>
+</tr>
+<tr>
+<td class="subject-cell">Lingua e cultura latina</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td class="red-text">2+1*</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td class="subject-cell">Lingua e cultura straniera/ Inglese</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td class="blue-text">2+1©</td>
+<td>3</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+</tr>
+<tr>
+<td class="subject-cell">Storia e Geografia</td>
+<td>3</td>
+<td aria-label="Apri approfondimento: 2+1*" class="red-text clickable" onclick="openModal('Storia e Geografia (I Anno - 2Q)', '&lt;strong&gt;Geo-Storia:&lt;/strong&gt; Civiltà romana e la civiltà greca&lt;br&gt;&lt;br&gt;&lt;strong&gt;Disegno:&lt;/strong&gt; L’arte greco romana')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0">2+1*</td>
+<td>2</td>
+<td>2</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+</tr>
+<tr>
+<td class="subject-cell">Storia</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td class="subject-cell">Filosofia</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td class="bg-gray">/</td>
+<td>3</td>
+<td>3</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+<td class="red-text">2+1*</td>
+<td>3</td>
+</tr>
+<tr>
+<td class="subject-cell">Matematica</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td class="blue-text">4+1©</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td class="subject-cell">Fisica</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td class="blue-text">2+1©</td>
+<td aria-label="Apri approfondimento: 2+1*" class="red-text clickable" onclick="openModal('Fisica (IV Anno - 1Q)', '&lt;strong&gt;Fisica:&lt;/strong&gt; Onde/la termodinamica (aspetti fisici)&lt;br&gt;&lt;br&gt;&lt;strong&gt;Scienze:&lt;/strong&gt; i terremoti / la termodinamica (aspetti chimici)')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0">2+1*</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td class="subject-cell">Scienze Naturali</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td class="red-text">2+1*</td>
+<td>3</td>
+<td class="blue-text">2+1©</td>
+<td class="blue-text">2+1©</td>
+</tr>
+<tr>
+<td class="subject-cell">Disegno e Storia dell’arte</td>
+<td>2</td>
+<td class="red-text">1+1*</td>
+<td class="red-text">1+1*</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td class="subject-cell">Scienze Motorie</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td class="subject-cell">Educazione civica</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="bg-green">
+<td class="subject-cell">Laboratorio biomedico e STEAM</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td class="subject-cell">IRC / Attività Alternative</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="bg-red">
+<td class="subject-cell" style="color: #FFFFFF;">Totale ore per anno</td>
+<td>29</td>
+<td>29</td>
+<td>29</td>
+<td>29</td>
+<td>33</td>
+<td>33</td>
+<td>33</td>
+<td>33</td>
+<td>33</td>
+<td>33</td>
+</tr>
+</tfoot>
+</table></div>
+<!-- Legenda / Postilla -->
+<div class="legend-box">
+<div class="legend-title">Legenda:</div>
+<div class="legend-item">1. <span class="text-red-italic">Esempi di Compresenze</span> indicate con <span class="text-red-italic">“*”</span> (asterisco)</div>
+<div class="legend-item">2. <span class="text-blue-italic">Esempi CLIL (disciplina non linguistica in lingua inglese)</span> indicato con simbolo <span class="text-blue-italic">“©”</span></div>
+</div>
+</div>
+<!-- Popup Modal -->
+<div class="modal-overlay" id="infoModal" onclick="closeModal()">
+<div class="modal-box" onclick="event.stopPropagation()">
+<span class="modal-close" onclick="closeModal()">×</span>
+<div class="modal-header" id="modalTitle"></div>
+<div id="modalBody"></div>
+</div>
+</div>
+<script>
+  function openModal(title, content) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('infoModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('infoModal').style.display = 'none';
+  }
+</script>
+</body>
+</html>
