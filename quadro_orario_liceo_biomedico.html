@@ -35,6 +35,14 @@ body {
   border-radius: 9px;
 }
 
+h2 {
+  text-align: center;
+  margin: 16px 12px 24px;
+  font-size: 1.5rem;
+}
+
+/* TABELLA */
+
 table.biomedico-table {
   width: 100%;
   min-width: 1050px;
@@ -45,11 +53,25 @@ table.biomedico-table {
   font-variant-numeric: tabular-nums;
 }
 
+/* Larghezze precise delle 11 colonne */
+
+.biomedico-table col:first-child {
+  width: 28%;
+}
+
+.biomedico-table col:not(:first-child) {
+  width: 7.2%;
+}
+
+/* Intestazioni */
+
 thead th {
   background: var(--azzurro);
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
+  width: auto;
+  min-width: 0;
 }
 
 th, td {
@@ -64,10 +86,21 @@ tr > :last-child {
   border-right: 0;
 }
 
-thead th:first-child,
+/* Allineamento prima colonna */
+
+thead tr:first-child > th:first-child,
 tbody th,
 tfoot th {
   text-align: left;
+  width: 28%;
+  min-width: 0;
+}
+
+/* Tutte le colonne dei quadrimestri uguali */
+
+.biomedico-table thead tr:nth-child(2) th {
+  width: 7.2%;
+  min-width: 0;
 }
 
 tbody th {
@@ -82,6 +115,8 @@ tbody tr:hover {
   background: #eaf3f8;
 }
 
+/* Totali */
+
 tfoot th,
 tfoot td {
   background: var(--azzurro);
@@ -93,22 +128,7 @@ tfoot tr:last-child > * {
   border-bottom: 0;
 }
 
-.nota {
-  max-width: 1200px;
-  margin: 18px auto 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.legend-title {
-  font-weight: 700;
-  font-style: italic;
-  margin-bottom: 5px;
-}
-
-.legend-item {
-  margin: 4px 0;
-}
+/* Evidenziazioni */
 
 .red-text,
 .text-red-italic {
@@ -136,6 +156,27 @@ tfoot tr:last-child > * {
   background: #eaf3f8;
 }
 
+/* Legenda */
+
+.nota {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.legend-title {
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.legend-item {
+  margin: 4px 0;
+}
+
+/* Celle interattive */
+
 .clickable {
   cursor: pointer;
   text-decoration: underline dotted;
@@ -157,7 +198,7 @@ tfoot tr:last-child > * {
   outline-offset: -3px;
 }
 
-/* Popup interattivi */
+/* POPUP */
 
 .modal-overlay {
   display: none;
@@ -206,25 +247,32 @@ tfoot tr:last-child > * {
   cursor: pointer;
 }
 
-/* Responsive */
+/* RESPONSIVE */
 
 @media (max-width: 600px) {
+
   body {
     padding: 8px;
     font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 14px 8px 18px;
   }
 
   th, td {
     padding: 12px 8px;
   }
 
-  thead tr:first-child th:first-child,
+  /* Solo la colonna Discipline resta fissa */
+
+  thead tr:first-child > th:first-child,
   tbody th,
   tfoot th {
     position: sticky;
     left: 0;
     z-index: 1;
-    background: #fff;
     box-shadow: 2px 0 3px rgba(0,0,0,.06);
   }
 
@@ -232,7 +280,11 @@ tfoot tr:last-child > * {
     background: #f4f8fb;
   }
 
-  thead tr:first-child th:first-child,
+  tbody tr:nth-child(even) th {
+    background: #fff;
+  }
+
+  thead tr:first-child > th:first-child,
   tfoot th {
     background: var(--azzurro);
     z-index: 2;
@@ -257,7 +309,11 @@ tfoot tr:last-child > * {
      aria-label="Quadro orario Liceo Biomedico"
      tabindex="0">
 
+<h2>Quadro orario – Liceo Biomedico</h2>
+
 <table class="biomedico-table">
+
+<!-- LARGHEZZA COLONNE -->
 
 <colgroup>
   <col style="width:28%">
@@ -444,6 +500,8 @@ tfoot tr:last-child > * {
 </div>
 
 </main>
+
+<!-- POPUP INTERATTIVI -->
 
 <div class="modal-overlay" id="infoModal">
   <div class="modal-box"
